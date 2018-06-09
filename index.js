@@ -54,27 +54,38 @@ config = {
 eos = Eos(config)
 
 
-eos.transaction({
- actions: [
-   {
-     account: 'example',
-     name: 'hi',
-     authorization: [{
-       actor: 'testacc',
-       permission: 'owner'
-     }],
-     data: {
-       user: 'andrew'
-       // from: 'inita',
-       // to: 'initb',
-       // quantity: '7 SYS',
-       // memo: ''
-     }
-    }
-  ]
-}).then(result => {
-	console.log('GOOOD', result)
+var express = require('express')
+var app = express()
+ 
+app.get('/sendPayment', function (req, res) {
+  res.send('paymentSent')
 
-}).catch(error => {
-	console.log('BADDDD', error)}
-)
+  eos.transaction({
+   actions: [
+     {
+       account: 'example',
+       name: 'hi',
+       authorization: [{
+         actor: 'testacc',
+         permission: 'owner'
+       }],
+       data: {
+         user: 'paymentsent'
+         // from: 'inita',
+         // to: 'initb',
+         // quantity: '7 SYS',
+         // memo: ''
+       }
+      }
+    ]
+  }).then(result => {
+    console.log('GOOOD', result)
+
+  }).catch(error => {
+    console.log('BADDDD', error)}
+  )
+
+})
+ 
+app.listen(3000)
+
